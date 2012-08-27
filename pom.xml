@@ -5,7 +5,9 @@
     <artifactId>experiments</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
+  
   <artifactId>bowling</artifactId>
   <name>Compute Bowling Score</name>
+  <version>1.0.0</version>
   <description>A programming assignment for job application of mine.</description>
 </project>

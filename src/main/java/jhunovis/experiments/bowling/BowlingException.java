@@ -1,4 +1,4 @@
-package de.examples.bowling;
+package jhunovis.experiments.bowling;
 
 @SuppressWarnings("serial")
 public class BowlingException extends Exception {

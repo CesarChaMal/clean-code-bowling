@@ -1,4 +1,4 @@
-package de.examples.bowling;
+package jhunovis.experiments.bowling;
 
 import static org.junit.Assert.*;
 import org.junit.Test;

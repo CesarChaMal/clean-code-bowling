@@ -1,4 +1,4 @@
-package de.examples.bowling;
+package jhunovis.experiments.bowling;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
