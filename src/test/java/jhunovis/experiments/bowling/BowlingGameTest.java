@@ -5,53 +5,30 @@ import org.junit.Test;
 
 public class BowlingGameTest {
 
-	@Test
-	public void invalidRolls() {
-		BowlingGame game;
-		boolean caught;
+	@Test(expected=BowlingException.class)
+	public void invalidRollBelowZero() throws BowlingException {
+		BowlingGame game = new BowlingGame();
+		game.addRoll(-1);
+	}
 
-		game = new BowlingGame();
-		caught = false;
-		try {
-			game.addRoll(-1);
-		} catch (BowlingException x) {
-			caught = true;
-		}
-		if (!caught)
-			fail("A bowling exception should have been thrown.");
+	@Test(expected=BowlingException.class)
+	public void invalidRollAboveTen()  throws BowlingException {
+		BowlingGame game = new BowlingGame();
+		game.addRoll(11);
+	}
 
-		game = new BowlingGame();
-		caught = false;
-		try {
-			game.addRoll(11);
-		} catch (BowlingException x) {
-			caught = true;
-		}
-		if (!caught)
-			fail("A bowling exception should have been thrown.");
+	@Test(expected=BowlingException.class)
+	public void invalidSecondRollBelowZero() throws BowlingException {
+		BowlingGame game = new BowlingGame();
+		game.addRoll(2);
+		game.addRoll(-2);
+	}
 
-		game = new BowlingGame();
-		caught = false;
-		try {
-			game.addRoll(2);
-			game.addRoll(9);
-		} catch (BowlingException x) {
-			caught = true;
-		}
-		if (!caught)
-			fail("A bowling exception should have been thrown.");
-
-		game = new BowlingGame();
-		caught = false;
-		try {
-			game.addRoll(2);
-			game.addRoll(-2);
-		} catch (BowlingException x) {
-			caught = true;
-		}
-		if (!caught)
-			fail("A bowling exception should have been thrown.");
-
+	@Test(expected=BowlingException.class)
+	public void invalidFrameAboveTen()  throws BowlingException {
+		BowlingGame game = new BowlingGame();
+		game.addRoll(2);
+		game.addRoll(9);
 	}
 
 	@Test(expected = BowlingException.class)
