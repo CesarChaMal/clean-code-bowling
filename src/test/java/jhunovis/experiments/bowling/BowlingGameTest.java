@@ -41,19 +41,32 @@ public class BowlingGameTest {
 		game.addRoll(9);
 	}
 
-	@Test
-	public void tenthFrameIsStrike() throws BowlingException {
-		BowlingGame game;
-
-		// 10th frame is strike
-		game = new BowlingGame();
+	protected BowlingGame rollNineFrames() throws BowlingException {
+		BowlingGame game = new BowlingGame();
 		for (int i = 0; i < 9; i++) {
+			assertEquals(i + 1, game.getCurrentFrame());
+			assertEquals(1, game.getCurrentRoll());
 			game.addRoll(2);
-			game.addRoll(3);
-		}
+			assertTrue(!game.isComplete());
 
+			assertEquals(2, game.getCurrentRoll());
+			game.addRoll(3);
+			assertTrue(!game.isComplete());
+		}
 		assertEquals(10, game.getCurrentFrame());
 		assertEquals(1, game.getCurrentRoll());
+		return game;
+	}
+	
+	@Test
+	public void firstNinesFrameNoStrikeNoSpare() throws BowlingException {
+		rollNineFrames();
+	}
+	
+	@Test
+	public void tenthFrameIsStrike() throws BowlingException {
+		BowlingGame game = rollNineFrames();
+
 		game.addRoll(10);
 		assertTrue(!game.isComplete());
 
@@ -70,16 +83,8 @@ public class BowlingGameTest {
 
 	@Test
 	public void tenthFrameIsSpare() throws BowlingException {
-		BowlingGame game = new BowlingGame();
+		BowlingGame game = rollNineFrames();
 
-		// 10th frame is spare
-		game = new BowlingGame();
-		for (int i = 0; i < 9; i++) {
-			game.addRoll(2);
-			game.addRoll(3);
-		}
-		assertEquals(10, game.getCurrentFrame());
-		assertEquals(1, game.getCurrentRoll());
 		game.addRoll(4);
 		assertTrue(!game.isComplete());
 
@@ -95,20 +100,8 @@ public class BowlingGameTest {
 
 	@Test
 	public void tenthFrameNoSpareNorStrike() throws BowlingException {
-		BowlingGame game = new BowlingGame();
-		for (int i = 0; i < 9; i++) {
-			assertEquals(i + 1, game.getCurrentFrame());
-			assertEquals(1, game.getCurrentRoll());
-			game.addRoll(2);
-			assertTrue(!game.isComplete());
+		BowlingGame game = rollNineFrames();
 
-			assertEquals(2, game.getCurrentRoll());
-			game.addRoll(3);
-			assertTrue(!game.isComplete());
-		}
-
-		assertEquals(10, game.getCurrentFrame());
-		assertEquals(1, game.getCurrentRoll());
 		game.addRoll(4);
 		assertTrue(!game.isComplete());
 
