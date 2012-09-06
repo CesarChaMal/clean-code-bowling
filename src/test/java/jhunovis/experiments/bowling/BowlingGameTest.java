@@ -42,48 +42,8 @@ public class BowlingGameTest {
 	}
 
 	@Test
-	public void gameProgress() throws BowlingException {
-		BowlingGame game = new BowlingGame();
-
-		for (int i = 0; i < 9; i++) {
-			assertEquals(i + 1, game.getCurrentFrame());
-			assertEquals(1, game.getCurrentRoll());
-			game.addRoll(2);
-			assertTrue(!game.isComplete());
-
-			assertEquals(2, game.getCurrentRoll());
-			game.addRoll(3);
-			assertTrue(!game.isComplete());
-		}
-
-		assertEquals(10, game.getCurrentFrame());
-		assertEquals(1, game.getCurrentRoll());
-		game.addRoll(4);
-		assertTrue(!game.isComplete());
-
-		assertEquals(2, game.getCurrentRoll());
-		game.addRoll(5);
-		assertTrue(game.isComplete());
-
-		// 10th frame is spare
-		game = new BowlingGame();
-		for (int i = 0; i < 9; i++) {
-			game.addRoll(2);
-			game.addRoll(3);
-		}
-		assertEquals(10, game.getCurrentFrame());
-		assertEquals(1, game.getCurrentRoll());
-		game.addRoll(4);
-		assertTrue(!game.isComplete());
-
-		assertEquals(2, game.getCurrentRoll());
-		game.addRoll(6);
-		assertTrue(!game.isComplete());
-
-		assertEquals(10, game.getCurrentFrame());
-		assertEquals(3, game.getCurrentRoll());
-		game.addRoll(7);
-		assertTrue(game.isComplete());
+	public void tenthFrameIsStrike() throws BowlingException {
+		BowlingGame game;
 
 		// 10th frame is strike
 		game = new BowlingGame();
@@ -105,6 +65,55 @@ public class BowlingGameTest {
 		assertEquals(10, game.getCurrentFrame());
 		assertEquals(3, game.getCurrentRoll());
 		game.addRoll(10);
+		assertTrue(game.isComplete());
+	}
+
+	@Test
+	public void tenthFrameIsSpare() throws BowlingException {
+		BowlingGame game = new BowlingGame();
+
+		// 10th frame is spare
+		game = new BowlingGame();
+		for (int i = 0; i < 9; i++) {
+			game.addRoll(2);
+			game.addRoll(3);
+		}
+		assertEquals(10, game.getCurrentFrame());
+		assertEquals(1, game.getCurrentRoll());
+		game.addRoll(4);
+		assertTrue(!game.isComplete());
+
+		assertEquals(2, game.getCurrentRoll());
+		game.addRoll(6);
+		assertTrue(!game.isComplete());
+
+		assertEquals(10, game.getCurrentFrame());
+		assertEquals(3, game.getCurrentRoll());
+		game.addRoll(7);
+		assertTrue(game.isComplete());
+	}
+
+	@Test
+	public void tenthFrameNoSpareNorStrike() throws BowlingException {
+		BowlingGame game = new BowlingGame();
+		for (int i = 0; i < 9; i++) {
+			assertEquals(i + 1, game.getCurrentFrame());
+			assertEquals(1, game.getCurrentRoll());
+			game.addRoll(2);
+			assertTrue(!game.isComplete());
+
+			assertEquals(2, game.getCurrentRoll());
+			game.addRoll(3);
+			assertTrue(!game.isComplete());
+		}
+
+		assertEquals(10, game.getCurrentFrame());
+		assertEquals(1, game.getCurrentRoll());
+		game.addRoll(4);
+		assertTrue(!game.isComplete());
+
+		assertEquals(2, game.getCurrentRoll());
+		game.addRoll(5);
 		assertTrue(game.isComplete());
 	}
 
