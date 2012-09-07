@@ -1,0 +1,16 @@
+# certain directories
+target/
+.settings/
+
+# non-user-controlled settings
+.classpath
+.project
+
+# binary stuff and backups
+*~
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
