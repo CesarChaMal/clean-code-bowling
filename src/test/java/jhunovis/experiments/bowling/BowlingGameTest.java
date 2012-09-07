@@ -173,20 +173,31 @@ public class BowlingGameTest {
 	}
 
 	@Test
-	public void strikesAndSpares() throws BowlingException {
+	public void frameIsNeitherStrikeNorSpare() throws BowlingException {
 		BowlingGame game = new BowlingGame();
 
 		game.addRoll(5);
 		assertTrue(!game.isSpare(1));
 		assertTrue(!game.isStrike(1));
+	}
 
+	@Test
+	public void frameIsSpare() throws BowlingException {
+		BowlingGame game = new BowlingGame();
+
+		game.addRoll(5);
 		game.addRoll(5);
 		assertTrue(game.isSpare(1));
 		assertTrue(!game.isStrike(1));
+	}
+
+	@Test
+	public void frameIsStrike() throws BowlingException {
+		BowlingGame game = new BowlingGame();
 
 		game.addRoll(10);
-		assertTrue(!game.isSpare(2));
-		assertTrue(game.isStrike(2));
+		assertTrue(!game.isSpare(1));
+		assertTrue(game.isStrike(1));
 	}
 
 	@Test
