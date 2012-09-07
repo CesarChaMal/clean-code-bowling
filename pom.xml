@@ -1,13 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>jhunovis</groupId>
-    <artifactId>experiments</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
+
+  <groupId>jhunovis</groupId>
+  <artifactId>cleancode.bowling</artifactId>
+  <version>2.0.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>Clean Code: Bowling Example</name>
+  <description>    
+  Applying Robert C. Martins «Clean Code» to simple application that
+  computes the score for a bowling game. This started as a programming
+  assignment for job application of mine.
+  </description>
+  <url>http://convales.blogspot.com/</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
   
-  <artifactId>bowling</artifactId>
-  <name>Compute Bowling Score</name>
-  <version>1.0.0</version>
-  <description>A programming assignment for job application of mine.</description>
+  <dependencies>
+    <dependency>
+    	<groupId>junit</groupId>
+    	<artifactId>junit-dep</artifactId>
+    	<version>4.10</version>
+    	<scope>test</scope>
+    </dependency>
+  
+  </dependencies>
 </project>
