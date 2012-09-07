@@ -3,7 +3,7 @@ package jhunovis.experiments.bowling;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-public class BowlingGameTest {
+public class BowlingGameTests {
 
 	@Test(expected = BowlingException.class)
 	public void invalidRollBelowZero() throws BowlingException {
