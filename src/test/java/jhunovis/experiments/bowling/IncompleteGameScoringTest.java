@@ -14,19 +14,19 @@ import org.junit.Test;
 public class IncompleteGameScoringTest {
 
 	@Test
-	public void allStrikes() throws BowlingException {
+	public void allStrikes() {
 		BowlingGame game = new BowlingGame(new int[] { 10, 10, 10 });
 		assertEquals(60, game.getScore());
 	}
 
 	@Test
-	public void interruptedStrikeStreak() throws BowlingException {
+	public void interruptedStrikeStreak() {
 		BowlingGame game = new BowlingGame(new int[] { 10, 10, 10, 5 });
 		assertEquals(75, game.getScore());
 	}
 
 	@Test
-	public void neitherStrikeNorSpare() throws BowlingException {
+	public void neitherStrikeNorSpare() {
 		BowlingGame game = new BowlingGame(new int[] { 1, 2, 3, 4 });
 		assertEquals(10, game.getScore());
 
@@ -35,7 +35,7 @@ public class IncompleteGameScoringTest {
 	}
 
 	@Test
-	public void scoreTwoSpares() throws BowlingException {
+	public void scoreTwoSpares() {
 		BowlingGame game = new BowlingGame(new int[] { 3, 7, 2, 8, 1 });
 		assertEquals(24, game.getScore());
 	}

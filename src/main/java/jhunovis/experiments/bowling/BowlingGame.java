@@ -85,14 +85,13 @@ public class BowlingGame {
 	 *            A number between 1 and 10; Both rolls of a frame may not
 	 *            exceed the sum of 10.
 	 * @throws BowlingException
-	 *             if a invalid number has been passed in, of the game is
-	 *             already finished.
+	 *             if the roll is not within range 0–10, if the current frame
+	 *             would sum up to more than 10, or if the game is already
+	 *             complete, i.e. 10 frames have been rolled.
 	 */
-	public void addRoll(int roll) throws BowlingException {
-		if (isComplete())
-			throw new BowlingException("No more rolls allowed.");
-		if (roll < 0 || roll > 10)
-			throw new BowlingException("Roll out of bounds.");
+	public void addRoll(int roll) {
+		if (!canAddRoll(roll))
+			throw new BowlingException(roll, mRolls);
 		if (mExtraRolls > 0) {
 			// Rolls after a strike or spare in the 10th frame are handled as
 			// extra rolls.
@@ -108,7 +107,7 @@ public class BowlingGame {
 			} else {
 				mFrameState[mCurrentFrame] = FrameState.FIRST_ROLLED;
 			}
-		} else if (roll + mRolls[mCurrentRoll - 1] <= 10) {
+		} else {
 			// second roll
 			mRolls[mCurrentRoll] = roll;
 			if (roll + mRolls[mCurrentRoll - 1] == 10)
@@ -117,8 +116,7 @@ public class BowlingGame {
 				mFrameState[mCurrentFrame] = FrameState.NOT_CLEARED;
 			mCurrentRoll++;
 			nextFrame();
-		} else
-			throw new BowlingException("Frame out of bounds.");
+		}
 	}
 
 	/**
@@ -139,6 +137,21 @@ public class BowlingGame {
 					"Frame numbers must range between 1 and 11!");
 		}
 
+	}
+
+	/**
+	 * Check whether the given roll can be added to the currently played frame.
+	 * 
+	 * @param roll
+	 *            The roll to be checked.
+	 * @return true, only if an immediate call to {@code #addRoll(int)} will not
+	 *         throw a BowlingException.
+	 */
+	public boolean canAddRoll(int roll) {
+		return !(isComplete() 
+				 || (roll < 0 || roll > 10) 
+				 || (!isFirstRoll() && mExtraRolls==0 &&
+				    (roll + mRolls[mCurrentRoll - 1] > 10)));
 	}
 
 	/**
@@ -202,11 +215,23 @@ public class BowlingGame {
 	 */
 	public int getCurrentRoll() {
 		if (mFramesComplete) {
-			// This awkward piece counts the roll of last last frame, which my be up to 3. 
-			return (mFrameState[mCurrentFrame] == FrameState.SPARE) ? 3 : 4-mExtraRolls;
+			// This awkward piece counts the roll of last last frame, which my
+			// be up to 3.
+			return (mFrameState[mCurrentFrame] == FrameState.SPARE) 
+					? 3	: 4 - mExtraRolls;
 		} else {
-			return (mFrameState[mCurrentFrame] == FrameState.FIRST_ROLLED) ? 2 : 1;
-		} 
+			return (mFrameState[mCurrentFrame] == FrameState.FIRST_ROLLED) 
+					? 2	: 1;
+		}
+	}
+
+	/**
+	 * Return whether the current roll is the first roll of the current frame.
+	 * 
+	 * @return getCurrentRoll() == 1
+	 */
+	public boolean isFirstRoll() {
+		return getCurrentRoll() == 1;
 	}
 
 	/**
@@ -237,11 +262,10 @@ public class BowlingGame {
 						.println("Bitte Ganzzahl zwischen 1 und 10 eingeben!");
 				continue;
 			}
-			try {
+			if (game.canAddRoll(roll)) {
 				game.addRoll(roll);
-			} catch (BowlingException ex) {
-				ex.printStackTrace();
-				System.err.println(ex.getMessage());
+			} else {
+				System.out.println("This is not a valid roll!");
 			}
 			if (game.isSpare(curFrame))
 				System.out.print("SPARE! ");

@@ -5,43 +5,7 @@ import org.junit.Test;
 
 public class BowlingGameTests {
 
-	@Test(expected = BowlingException.class)
-	public void invalidRollBelowZero() throws BowlingException {
-		BowlingGame game = new BowlingGame();
-		game.addRoll(-1);
-	}
-
-	@Test(expected = BowlingException.class)
-	public void invalidRollAboveTen() throws BowlingException {
-		BowlingGame game = new BowlingGame();
-		game.addRoll(11);
-	}
-
-	@Test(expected = BowlingException.class)
-	public void invalidSecondRollBelowZero() throws BowlingException {
-		BowlingGame game = new BowlingGame();
-		game.addRoll(2);
-		game.addRoll(-2);
-	}
-
-	@Test(expected = BowlingException.class)
-	public void invalidFrameAboveTen() throws BowlingException {
-		BowlingGame game = new BowlingGame();
-		game.addRoll(2);
-		game.addRoll(9);
-	}
-
-	@Test(expected = BowlingException.class)
-	public void tooManyFrames() throws BowlingException {
-		BowlingGame game = new BowlingGame();
-		for (int i = 0; i < 10; i++) {
-			game.addRoll(1);
-			game.addRoll(2);
-		}
-		game.addRoll(9);
-	}
-
-	protected BowlingGame rollNineFrames() throws BowlingException {
+	protected BowlingGame rollNineFrames() {
 		BowlingGame game = new BowlingGame();
 		for (int i = 0; i < 9; i++) {
 			assertEquals(i + 1, game.getCurrentFrame());
@@ -59,7 +23,7 @@ public class BowlingGameTests {
 	}
 
 	@Test
-	public void firstNinesFrameNoStrikeNoSpare() throws BowlingException {
+	public void firstNinesFrameNoStrikeNoSpare() {
 		rollNineFrames();
 	}
 
@@ -75,12 +39,12 @@ public class BowlingGameTests {
 	}
 
 	@Test
-	public void gameCompleteAfterTenthFrameIsStrike() throws BowlingException {
+	public void gameCompleteAfterTenthFrameIsStrike() {
 		rollTenFramesLastFrameIsStrike();
 	}
 
 	@Test
-	public void strikesAfterTenthFrameIsStrike() throws BowlingException {
+	public void strikesAfterTenthFrameIsStrike() {
 		BowlingGame game = rollTenFramesLastFrameIsStrike();
 
 		game.addRoll(10);
@@ -93,7 +57,7 @@ public class BowlingGameTests {
 	}
 
 	@Test
-	public void spareAfterTenthFrameIsStrike() throws BowlingException {
+	public void spareAfterTenthFrameIsStrike() {
 		BowlingGame game = rollTenFramesLastFrameIsStrike();
 
 		game.addRoll(4);
@@ -106,7 +70,7 @@ public class BowlingGameTests {
 	}
 
 	@Test
-	public void notClearedAfterTenthFrameIsStrike() throws BowlingException {
+	public void notClearedAfterTenthFrameIsStrike() {
 		BowlingGame game = rollTenFramesLastFrameIsStrike();
 
 		game.addRoll(4);
@@ -135,19 +99,19 @@ public class BowlingGameTests {
 	}
 
 	@Test
-	public void gameCompleteAfterSpareInLastFrame() throws BowlingException {
+	public void gameCompleteAfterSpareInLastFrame() {
 		rollTenFramesLastFrameIsSpare();
 	}
 
 	@Test
-	public void noStrikeAfterSpareInLastFrame() throws BowlingException {
+	public void noStrikeAfterSpareInLastFrame() {
 		BowlingGame game = rollTenFramesLastFrameIsSpare();
 		game.addRoll(7);
 		assertTrue(game.isComplete());
 	}
 
 	@Test
-	public void strikeAfterSpareInLastFrame() throws BowlingException {
+	public void strikeAfterSpareInLastFrame() {
 		BowlingGame game = rollTenFramesLastFrameIsSpare();
 
 		game.addRoll(10);
@@ -173,7 +137,7 @@ public class BowlingGameTests {
 	}
 
 	@Test
-	public void frameIsNeitherStrikeNorSpare() throws BowlingException {
+	public void frameIsNeitherStrikeNorSpare() {
 		BowlingGame game = new BowlingGame();
 
 		game.addRoll(5);
@@ -182,7 +146,7 @@ public class BowlingGameTests {
 	}
 
 	@Test
-	public void frameIsSpare() throws BowlingException {
+	public void frameIsSpare() {
 		BowlingGame game = new BowlingGame();
 
 		game.addRoll(5);
@@ -192,7 +156,7 @@ public class BowlingGameTests {
 	}
 
 	@Test
-	public void frameIsStrike() throws BowlingException {
+	public void frameIsStrike() {
 		BowlingGame game = new BowlingGame();
 
 		game.addRoll(10);
@@ -200,5 +164,17 @@ public class BowlingGameTests {
 		assertTrue(game.isStrike(1));
 	}
 
+	@Test
+	public void isFirstRoll() {
+		BowlingGame game = new BowlingGame();
+		assertTrue(game.isFirstRoll());
+	}
+
+	@Test
+	public void isSecondRoll() {
+		BowlingGame game = new BowlingGame();
+		game.addRoll(1);
+		assertFalse(game.isFirstRoll());
+	}
 
 }
