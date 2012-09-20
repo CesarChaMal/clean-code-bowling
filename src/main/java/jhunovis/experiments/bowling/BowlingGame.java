@@ -47,11 +47,13 @@ public class BowlingGame {
 	public BowlingGame() {
 	}
 
-	/** For bulk setup. See {@link #addRoll(int)}. */
-	public BowlingGame(int[] rolls) throws BowlingException {
-		for (int roll : rolls) {
-			addRoll(roll);
-		}
+	/** For bulk setup. See {@link #addRoll(int)}.
+	 * 
+	 * @throws BowlingException whenever {@link #addRolls(int[])} would
+	 *     throw one.
+	 *  */
+	public BowlingGame(int[] rolls) {
+		addRolls(rolls);
 	}
 
 	/*
@@ -75,6 +77,18 @@ public class BowlingGame {
 			}
 			mFramesComplete = true;
 		}
+	}
+	
+	/** Add all rolls in {@code rolls} to the game.
+	 * 
+	 * @param rolls The rolls to be added.
+	 * @throws BowlingException whenever {@link #addRoll(int)} would throw 
+	 *    one for any roll in rolls.
+	 */
+	public void addRolls(int[] rolls) {
+		for (int roll : rolls) {
+			addRoll(roll);
+		}		
 	}
 
 	/**
