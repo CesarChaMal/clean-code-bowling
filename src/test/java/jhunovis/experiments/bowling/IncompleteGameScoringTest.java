@@ -15,28 +15,28 @@ public class IncompleteGameScoringTest {
 
 	@Test
 	public void allStrikes() {
-		BowlingGame game = new BowlingGame(new int[] { 10, 10, 10 });
+		BowlingGame game = BowlingGame.fromRolls(new int[] { 10, 10, 10 });
 		assertEquals(60, game.getScore());
 	}
 
 	@Test
 	public void interruptedStrikeStreak() {
-		BowlingGame game = new BowlingGame(new int[] { 10, 10, 10, 5 });
+		BowlingGame game = BowlingGame.fromRolls(new int[] { 10, 10, 10, 5 });
 		assertEquals(75, game.getScore());
 	}
 
 	@Test
 	public void neitherStrikeNorSpare() {
-		BowlingGame game = new BowlingGame(new int[] { 1, 2, 3, 4 });
+		BowlingGame game = BowlingGame.fromRolls(new int[] { 1, 2, 3, 4 });
 		assertEquals(10, game.getScore());
 
-		game = new BowlingGame(new int[] { 3, 7, 2, 8, 1 });
+		game = BowlingGame.fromRolls(new int[] { 3, 7, 2, 8, 1 });
 		assertEquals(24, game.getScore());
 	}
 
 	@Test
 	public void scoreTwoSpares() {
-		BowlingGame game = new BowlingGame(new int[] { 3, 7, 2, 8, 1 });
+		BowlingGame game = BowlingGame.fromRolls(new int[] { 3, 7, 2, 8, 1 });
 		assertEquals(24, game.getScore());
 	}
 

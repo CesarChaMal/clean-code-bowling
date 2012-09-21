@@ -47,13 +47,16 @@ public class BowlingGame {
 	public BowlingGame() {
 	}
 
-	/** For bulk setup. See {@link #addRoll(int)}.
+	/** Static factory method for bulk setup. See {@link #addRoll(int)}.
 	 * 
 	 * @throws BowlingException whenever {@link #addRolls(int[])} would
 	 *     throw one.
+	 * @return A game with all the given {@code rolls} added. 
 	 *  */
-	public BowlingGame(int[] rolls) {
-		addRolls(rolls);
+	public static BowlingGame fromRolls(int[] rolls) {
+		BowlingGame game = new BowlingGame();
+		game.addRolls(rolls);
+		return game;
 	}
 
 	/*
