@@ -265,18 +265,18 @@ public class BowlingGame {
 	public static void main(String[] args) {
 		BowlingGame game = new BowlingGame();
 
-		System.out.println("BOWLING! Bitte Ergebnisse eingeben!");
+		System.out.println("BOWLING! Please enter rolls, one by one!");
 		int roll = 0;
 		do {
 			int curFrame = game.getCurrentFrame();
 			int curRoll = game.getCurrentRoll();
-			System.out.printf("Ergebnis für Frame %d, Wurf %d: ", curFrame,
+			System.out.printf("Pins for frame %d, roll %d: ", curFrame,
 					curRoll);
 			try {
 				roll = new Scanner(System.in).nextInt();
 			} catch (InputMismatchException ex) {
 				System.out
-						.println("Bitte Ganzzahl zwischen 1 und 10 eingeben!");
+						.println("Enter integer numbers between 0 and 10!");
 				continue;
 			}
 			if (game.canAddRoll(roll)) {
@@ -288,9 +288,9 @@ public class BowlingGame {
 				System.out.print("SPARE! ");
 			else if (game.isStrike(curFrame))
 				System.out.print("STRIKE! ");
-			System.out.printf("Zwischenstand: %d%n", game.getScore());
+			System.out.printf("Score so far: %d%n", game.getScore());
 		} while (!game.isComplete());
-		System.out.printf("Endstand: %d%n", game.getScore());
+		System.out.printf("Final score: %d%n", game.getScore());
 	}
 
 }
