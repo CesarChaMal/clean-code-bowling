@@ -6,6 +6,20 @@ import java.util.Scanner;
 /** Compute the score of a bowling game. **/
 public class BowlingGame {
 
+	/** Indicates what error, if any, will occur when trying to
+	 *  add a roll to the game.
+	 *  
+	 *  Returned by 
+	 * @author jhunovis
+	 *
+	 */
+	public enum RollProblems {
+		NONE,
+		GAME_COMPLETE,
+		ROLL_ABOVE_TEN,
+		ROLL_BELOW_ZERO,
+		FRAME_SUM_ABOVE_TEN
+	}
 	/*
 	 * Classifies the frames of a game. Used for keeping track of the game and
 	 * its results.
@@ -165,12 +179,25 @@ public class BowlingGame {
 	 *         throw a BowlingException.
 	 */
 	public boolean canAddRoll(int roll) {
-		return !(isComplete() 
-				 || (roll < 0 || roll > 10) 
-				 || (!isFirstRoll() && mExtraRolls==0 &&
-				    (roll + mRolls[mCurrentRoll - 1] > 10)));
+		return canAddRoll2(roll) == RollProblems.NONE;
 	}
 
+	public RollProblems canAddRoll2(int roll) {
+		RollProblems result = RollProblems.NONE;
+		if ( isComplete() ) {
+			result = RollProblems.GAME_COMPLETE;
+		} else if (roll < 0) {
+			result = RollProblems.ROLL_BELOW_ZERO;
+		} else if (roll > 10) {
+			result = RollProblems.ROLL_ABOVE_TEN;
+		} else if (!isFirstRoll() && mExtraRolls==0) {
+			if (roll + mRolls[mCurrentRoll - 1] > 10) {
+				result = RollProblems.FRAME_SUM_ABOVE_TEN;
+			}
+		} 
+		return result;
+	}
+	
 	/**
 	 * Is given frame a strike?
 	 * 
