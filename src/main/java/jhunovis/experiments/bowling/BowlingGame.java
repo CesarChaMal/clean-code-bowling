@@ -281,7 +281,7 @@ public class BowlingGame {
 	 */
 	public int getCurrentRoll() {
 		if (mFramesComplete) {
-			// This awkward piece counts the roll of last last frame, which my
+			// This awkward piece counts the roll of last last frame, which may
 			// be up to 3.
 			return (mFrameState[mCurrentFrame] == FrameState.SPARE) 
 					? 3	: 4 - mExtraRolls;
