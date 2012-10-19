@@ -7,18 +7,29 @@ import java.util.Scanner;
 public class BowlingGame {
 
 	/** Indicates what error, if any, will occur when trying to
-	 *  add a roll to the game.
-	 *  
-	 *  Returned by 
-	 * @author jhunovis
-	 *
+	 *  add a roll to the game by calling {@link BowlingGame#addRoll(int)}.
 	 */
-	public enum RollProblems {
-		NONE,
-		GAME_COMPLETE,
-		ROLL_ABOVE_TEN,
-		ROLL_BELOW_ZERO,
-		FRAME_SUM_ABOVE_TEN
+	public enum RollProblem {
+		/** No problems detected. */ 
+		NONE("No problems!"),
+		/** Game already finished. No more rolls allowed.*/
+		GAME_COMPLETE("Bowling game already finished. No more rolls allowed!"),
+		/** Roll is above Ten. */
+		ROLL_ABOVE_TEN("Rolls must not be greater than 10!"),
+		/** Roll is below Zero. */
+		ROLL_BELOW_ZERO("Rolls must not be less than 0!"),
+		/** The sum of the two rolls of the frame would be larger than Ten. */
+		FRAME_SUM_ABOVE_TEN("The sum of both rolls of a frame must not be greater than ten!");
+		
+		private String errorMessage;
+
+		RollProblem(String errorMessage) {
+			this.errorMessage = errorMessage;
+		}
+		
+		public String getErrorMessage() {
+			return errorMessage;
+		}
 	}
 	/*
 	 * Classifies the frames of a game. Used for keeping track of the game and
@@ -173,26 +184,37 @@ public class BowlingGame {
 	/**
 	 * Check whether the given roll can be added to the currently played frame.
 	 * 
-	 * @param roll
-	 *            The roll to be checked.
+	 * @param roll The roll to be checked.
 	 * @return true, only if an immediate call to {@code #addRoll(int)} will not
 	 *         throw a BowlingException.
 	 */
 	public boolean canAddRoll(int roll) {
-		return canAddRoll2(roll) == RollProblems.NONE;
+		return checkAddRollProblems(roll) == RollProblem.NONE;
 	}
 
-	public RollProblems canAddRoll2(int roll) {
-		RollProblems result = RollProblems.NONE;
+	/**
+	 * Check whether the given roll can be added to the currently played frame.
+	 * 
+	 * Give more details as {@link #canAddRoll(int)} as to what is wrong with
+	 * roll.
+	 * 
+	 * @param roll The roll to be checked.
+	 * @return {@link RollProblem.NONE} if the roll can be added to the game.
+	 *    Any other value of {@link RollProblem} indicates that a 
+	 *    {@link BowlingException} will be thrown if adding the roll would be
+	 *    attempted.
+	 */
+	public RollProblem checkAddRollProblems(int roll) {
+		RollProblem result = RollProblem.NONE;
 		if ( isComplete() ) {
-			result = RollProblems.GAME_COMPLETE;
+			result = RollProblem.GAME_COMPLETE;
 		} else if (roll < 0) {
-			result = RollProblems.ROLL_BELOW_ZERO;
+			result = RollProblem.ROLL_BELOW_ZERO;
 		} else if (roll > 10) {
-			result = RollProblems.ROLL_ABOVE_TEN;
+			result = RollProblem.ROLL_ABOVE_TEN;
 		} else if (!isFirstRoll() && mExtraRolls==0) {
 			if (roll + mRolls[mCurrentRoll - 1] > 10) {
-				result = RollProblems.FRAME_SUM_ABOVE_TEN;
+				result = RollProblem.FRAME_SUM_ABOVE_TEN;
 			}
 		} 
 		return result;
@@ -309,7 +331,7 @@ public class BowlingGame {
 			if (game.canAddRoll(roll)) {
 				game.addRoll(roll);
 			} else {
-				System.out.println("This is not a valid roll!");
+				showErrorMessageForRollProblem(game.checkAddRollProblems(roll));
 			}
 			if (game.isSpare(curFrame))
 				System.out.print("SPARE! ");
@@ -318,6 +340,12 @@ public class BowlingGame {
 			System.out.printf("Score so far: %d%n", game.getScore());
 		} while (!game.isComplete());
 		System.out.printf("Final score: %d%n", game.getScore());
+	}
+
+	private static void showErrorMessageForRollProblem(RollProblem problem) {
+		assert problem != RollProblem.NONE;
+		System.out.print("Invalid roll entered: ");
+		System.out.println(problem.getErrorMessage());
 	}
 
 }

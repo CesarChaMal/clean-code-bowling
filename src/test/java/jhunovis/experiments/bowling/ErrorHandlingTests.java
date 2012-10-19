@@ -2,47 +2,47 @@ package jhunovis.experiments.bowling;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import static jhunovis.experiments.bowling.BowlingGame.RollProblems;
+import static jhunovis.experiments.bowling.BowlingGame.RollProblem;
 
 public class ErrorHandlingTests {
 
 	@Test
 	public void canAddRollBelowZero2(){
 		BowlingGame game = new BowlingGame();
-		assertEquals(RollProblems.ROLL_BELOW_ZERO, game.canAddRoll2(-5));
+		assertEquals(RollProblem.ROLL_BELOW_ZERO, game.checkAddRollProblems(-5));
 	}
 
 	@Test
 	public void canAddValidFirstRoll2(){
 		BowlingGame game = new BowlingGame();
-		assertEquals(RollProblems.NONE, game.canAddRoll2(5));
+		assertEquals(RollProblem.NONE, game.checkAddRollProblems(5));
 	}
 
 	@Test
 	public void canAddValidSecondRoll2(){
 		BowlingGame game = new BowlingGame();
 		game.addRoll(5);
-		assertEquals(RollProblems.NONE, game.canAddRoll2(5));
+		assertEquals(RollProblem.NONE, game.checkAddRollProblems(5));
 	}
 
 	@Test
 	public void canAddRollForFrameAboveTen2() {
 		BowlingGame game = new BowlingGame();
 		game.addRoll(2);
-		assertEquals(RollProblems.FRAME_SUM_ABOVE_TEN, game.canAddRoll2(9));
+		assertEquals(RollProblem.FRAME_SUM_ABOVE_TEN, game.checkAddRollProblems(9));
 	}
 
 	@Test
 	public void canAddRollAboveTen2() {
 		BowlingGame game = new BowlingGame();
-		assertEquals(RollProblems.ROLL_ABOVE_TEN, game.canAddRoll2(11));		
+		assertEquals(RollProblem.ROLL_ABOVE_TEN, game.checkAddRollProblems(11));		
 	}
 
 	@Test
 	public void canAddSecondRollBelowZero2() {
 		BowlingGame game = new BowlingGame();
 		game.addRoll(2);
-		assertEquals(RollProblems.ROLL_BELOW_ZERO, game.canAddRoll2(-5));
+		assertEquals(RollProblem.ROLL_BELOW_ZERO, game.checkAddRollProblems(-5));
 	}
 
 	@Test
@@ -52,7 +52,7 @@ public class ErrorHandlingTests {
 			game.addRoll(1);
 			game.addRoll(2);
 		}
-		assertEquals(RollProblems.GAME_COMPLETE, game.canAddRoll2(9));
+		assertEquals(RollProblem.GAME_COMPLETE, game.checkAddRollProblems(9));
 	}
 
 	// ========================
